@@ -1,5 +1,7 @@
 package com.mobiquity.dto;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.Objects;
 
 /**
@@ -73,7 +75,8 @@ public class ThingDTO {
         }
 
         private void weight(final String weight) {
-            this.weight = Double.parseDouble(weight);
+            BigDecimal weightScale = new BigDecimal(weight).setScale(2, RoundingMode.HALF_DOWN);
+            this.weight = weightScale.doubleValue();
         }
 
         // Parse price into currency and amount
