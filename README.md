@@ -23,14 +23,17 @@ The only format of the file described below:
 ```
 81 : (1,53.38,€45) (2,88.62,€98) (3,78.48,€3) (4,72.30,€76) (5,30.18,€9) (6,46.34,€48)
 ```
-81 is maximum weight capacity of the package. Included things weight cannot exceed this limit.
-: is seperator, between maximum weight capacity and things details.
-(1,53.38,€45) - things details should be wrapped to the brackets. 
-              - First parameter is unique identifier for the package
-              - Second parameter is weight of the thing. Default implementatin doesn't acceot weight more than 100.
-              Floating points should always have 2 digits.
-              - Third parameter is currency and price. Price cannot have floating digits, cannot be more than 100.
-              Currency should be same accross one package.
+> 81 is maximum weight capacity of the package. Included things weight cannot exceed this limit.
+
+> : is seperator, between maximum weight capacity and things details.
+
+> (1,53.38,€45)
+1. - things details should be wrapped to the brackets. 
+1. - First parameter is unique identifier for the package
+1. - Second parameter is weight of the thing. Default implementatin doesn't acceot weight more than 100. Floating points should always have 2 digits.
+1. - Third parameter is currency and price. Price cannot have floating digits, cannot be more than 100.
+1. - Currency should be same accross one package.
+
 All parameters are mandatory. In case of failure Exception will be returned with message of failure.
 
 To include several things into the file just need to seperate them via space symbol.
