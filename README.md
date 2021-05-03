@@ -28,7 +28,7 @@ The only format of the file described below:
 (1,53.38,€45) - things details should be wrapped to the brackets. 
               - First parameter is unique identifier for the package
               - Second parameter is weight of the thing. Default implementatin doesn't acceot weight more than 100.
-              Floating points should not be more than 2 digits.
+              Floating points should always have 2 digits.
               - Third parameter is currency and price. Price cannot have floating digits, cannot be more than 100.
               Currency should be same accross one package.
 All parameters are mandatory. In case of failure Exception will be returned with message of failure.
