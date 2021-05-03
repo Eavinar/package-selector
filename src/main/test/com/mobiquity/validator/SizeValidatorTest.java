@@ -1,7 +1,7 @@
 package com.mobiquity.validator;
 
 import com.mobiquity.constant.Constants;
-import com.mobiquity.dto.PackageWrapper;
+import com.mobiquity.dto.ThingsWrapper;
 import com.mobiquity.exception.APIException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,7 +12,7 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class SizeValidatorTest {
 
-    private PackageValidator validator;
+    private ThingValidator validator;
 
     @BeforeEach
     void setUp() {
@@ -21,13 +21,13 @@ class SizeValidatorTest {
 
     @Test
     public void validatorTest_whenCurrencyIsSame() {
-        PackageWrapper wrapper = new PackageWrapper(Constants.MAX_WEIGHT, Collections.emptyList());
+        ThingsWrapper wrapper = new ThingsWrapper(Constants.MAX_WEIGHT, Collections.emptyList());
         assertDoesNotThrow(() -> validator.validate(new Integer[1], new Integer[1], wrapper));
     }
 
     @Test
     public void validatorTest_throwException_whenCurrencyDifferent() {
-        PackageWrapper wrapper = new PackageWrapper(Constants.MAX_WEIGHT, Collections.emptyList());
+        ThingsWrapper wrapper = new ThingsWrapper(Constants.MAX_WEIGHT, Collections.emptyList());
 
         Exception exception = assertThrows(APIException.class, () -> validator.validate(new Integer[1], new Integer[2], wrapper));
 

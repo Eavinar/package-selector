@@ -5,12 +5,12 @@ import com.mobiquity.exception.APIException;
 import java.util.stream.Stream;
 
 /**
- * Interface is responsible for getting the required packages id.
+ * Interface is responsible for getting the required things id.
  */
 public interface PackageService {
 
     /**
-     * Service Layer method starts selecting appropriate packages from the input.
+     * Service Layer method starts selecting appropriate things from the input.
      * May return one or more results based on input file.
      * Output results line are corresponding to the input lines with details.
      *

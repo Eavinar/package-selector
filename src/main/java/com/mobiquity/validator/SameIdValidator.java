@@ -2,15 +2,15 @@ package com.mobiquity.validator;
 
 import com.mobiquity.constant.Constants;
 import com.mobiquity.constant.ValidatationStatus;
-import com.mobiquity.dto.PackageDTO;
-import com.mobiquity.dto.PackageWrapper;
+import com.mobiquity.dto.ThingDTO;
+import com.mobiquity.dto.ThingsWrapper;
 import com.mobiquity.exception.APIException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.List;
 
-public class SameIdValidator implements PackageValidator {
+public class SameIdValidator implements ThingValidator {
     private static final Logger log = LogManager.getLogger(SameIdValidator.class);
     /**
      * @inheritDoc
@@ -27,17 +27,17 @@ public class SameIdValidator implements PackageValidator {
      *
      * @param weight  array of all weights
      * @param value   array of all values.
-     * @param wrapper for the list of {@link com.mobiquity.dto.PackageDTO}. Keeps also maxWeight.
+     * @param wrapper for the list of {@link ThingDTO}. Keeps also maxWeight.
      * @throws APIException when found duplicate ID.
      */
     @Override
-    public void validate(Integer[] weight, Integer[] value, PackageWrapper wrapper) throws APIException {
-        List<PackageDTO> packageDTOList = wrapper.getPackageDTOList();
+    public void validate(Integer[] weight, Integer[] value, ThingsWrapper wrapper) throws APIException {
+        List<ThingDTO> thingDTOList = wrapper.getThingDTOList();
 
-        for (int i = 0; i < packageDTOList.size(); i++) {
-            for (int j = 0; j < packageDTOList.size(); j++) {
-                if (i != j && packageDTOList.get(i).equals(packageDTOList.get(j))) {
-                    log.error("Duplicate index found: {}, {}. Status: {}", packageDTOList.get(i), packageDTOList.get(j), ValidatationStatus.FAIL);
+        for (int i = 0; i < thingDTOList.size(); i++) {
+            for (int j = 0; j < thingDTOList.size(); j++) {
+                if (i != j && thingDTOList.get(i).equals(thingDTOList.get(j))) {
+                    log.error("Duplicate index found: {}, {}. Status: {}", thingDTOList.get(i), thingDTOList.get(j), ValidatationStatus.FAIL);
                     throw new APIException("Duplicate index");
                 }
             }

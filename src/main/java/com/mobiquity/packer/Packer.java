@@ -43,6 +43,9 @@ public class Packer {
         } catch (IOException e) {
             log.error("File not found", e);
             throw new APIException("File not found", e);
+        } catch (Exception e) {
+            log.error("Unexpected Exception occurred", e);
+            throw new APIException("Unexpected Exception occurred", e);
         }
     }
 }

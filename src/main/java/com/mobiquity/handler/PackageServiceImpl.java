@@ -1,16 +1,15 @@
 package com.mobiquity.handler;
 
 import com.mobiquity.constant.ValidatationStatus;
-import com.mobiquity.dto.PackageDTO;
-import com.mobiquity.dto.PackageWrapper;
+import com.mobiquity.dto.ThingDTO;
+import com.mobiquity.dto.ThingsWrapper;
 import com.mobiquity.exception.APIException;
 import com.mobiquity.exception.APIRuntimeException;
 import com.mobiquity.helper.PackageHelper;
 import com.mobiquity.helper.Utility;
-import com.mobiquity.packer.Packer;
-import com.mobiquity.service.PackageSelectAlgoService;
-import com.mobiquity.service.PackageSelectAlgoServiceImpl;
-import com.mobiquity.transformer.StringToPackageDTOTransformer;
+import com.mobiquity.service.ThingsSelectAlgoService;
+import com.mobiquity.service.ThingsSelectAlgoServiceImpl;
+import com.mobiquity.transformer.StringToThingsWrapperTransformer;
 import com.mobiquity.validator.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,19 +25,19 @@ import java.util.stream.Stream;
 public final class PackageServiceImpl implements PackageService {
     private static final Logger log = LogManager.getLogger(PackageServiceImpl.class);
 
-    private StringToPackageDTOTransformer transformer;
-    private PackageSelectAlgoService packageSelectService;
-    private List<PackageValidator> validatorList;
+    private StringToThingsWrapperTransformer transformer;
+    private ThingsSelectAlgoService thingSelectService;
+    private List<ThingValidator> validatorList;
 
-    public void setTransformer(final StringToPackageDTOTransformer transformer) {
+    public void setTransformer(final StringToThingsWrapperTransformer transformer) {
         this.transformer = transformer;
     }
 
-    public void setPackageSelectService(final PackageSelectAlgoService packageSelectService) {
-        this.packageSelectService = packageSelectService;
+    public void setThingSelectService(final ThingsSelectAlgoService thingSelectService) {
+        this.thingSelectService = thingSelectService;
     }
 
-    public void setValidatorList(final List<PackageValidator> validatorList) {
+    public void setValidatorList(final List<ThingValidator> validatorList) {
         this.validatorList = validatorList;
     }
 
@@ -53,9 +52,9 @@ public final class PackageServiceImpl implements PackageService {
         final StringBuilder builder = new StringBuilder();
 
         try {
-            final List<PackageWrapper> packageWrappers = transformAndGetWrapperList(stringStream);
+            final List<ThingsWrapper> thingsWrappers = transformAndGetWrapperList(stringStream);
 
-            for (final PackageWrapper wrapper : packageWrappers) {
+            for (final ThingsWrapper wrapper : thingsWrappers) {
                 choosePacks(builder, wrapper);
             }
         } catch (APIRuntimeException e) {
@@ -67,11 +66,11 @@ public final class PackageServiceImpl implements PackageService {
 
     private void initialize() {
         if (transformer == null) {
-            setTransformer(new StringToPackageDTOTransformer());
+            setTransformer(new StringToThingsWrapperTransformer());
         }
 
-        if (packageSelectService == null) {
-            setPackageSelectService(new PackageSelectAlgoServiceImpl());
+        if (thingSelectService == null) {
+            setThingSelectService(new ThingsSelectAlgoServiceImpl());
         }
 
         if (validatorList == null || validatorList.isEmpty()) {
@@ -86,33 +85,33 @@ public final class PackageServiceImpl implements PackageService {
         }
     }
 
-    private List<PackageWrapper> transformAndGetWrapperList(final Stream<String> stringStream) {
+    private List<ThingsWrapper> transformAndGetWrapperList(final Stream<String> stringStream) {
         return stringStream
                 .map(transformer::transform)
                 .collect(Collectors.toList());
     }
 
-    private void choosePacks(final StringBuilder builder, final PackageWrapper wrapper) throws APIException {
-        List<PackageDTO> packageDTOList = wrapper.getPackageDTOList();
+    private void choosePacks(final StringBuilder builder, final ThingsWrapper wrapper) throws APIException {
+        List<ThingDTO> thingDTOList = wrapper.getThingDTOList();
 
-        Integer[] weight = PackageHelper.getWeights(packageDTOList);
-        Integer[] value = PackageHelper.getValues(packageDTOList);
+        Integer[] weight = PackageHelper.getWeights(thingDTOList);
+        Integer[] value = PackageHelper.getValues(thingDTOList);
 
         validate(weight, value, wrapper);
 
         choose(builder, wrapper, weight, value);
     }
 
-    private void validate(final Integer[] weight, final Integer[] value, final PackageWrapper wrapper) throws APIException {
-        for (final PackageValidator validator : validatorList) {
+    private void validate(final Integer[] weight, final Integer[] value, final ThingsWrapper wrapper) throws APIException {
+        for (final ThingValidator validator : validatorList) {
             log.info("Running {}", validator.name());
             validator.validate(weight, value, wrapper);
             log.info("Running {}. Status: {}", validator.name(), ValidatationStatus.SUCCESS);
         }
     }
 
-    private void choose(final StringBuilder builder, final PackageWrapper wrapper, final Integer[] weight, final Integer[] value) {
-        StringBuilder selectedIndexes = packageSelectService.select(weight, value, wrapper);
+    private void choose(final StringBuilder builder, final ThingsWrapper wrapper, final Integer[] weight, final Integer[] value) {
+        StringBuilder selectedIndexes = thingSelectService.select(weight, value, wrapper);
 
         builder.append(selectedIndexes);
         builder.append("\n");

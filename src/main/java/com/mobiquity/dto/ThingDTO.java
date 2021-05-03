@@ -3,17 +3,17 @@ package com.mobiquity.dto;
 import java.util.Objects;
 
 /**
- * Class keeps all information of the packages.
- * Only way to instantiate the class is using the builder {@link PackageDTOBuilder}.
+ * Class keeps all information of the things.
+ * Only way to instantiate the class is using the builder {@link ThingDTOBuilder}.
  */
-public class PackageDTO {
+public class ThingDTO {
 
     private final Integer id;
     private final Double weight;
     private final Integer price;
     private final String currency;
 
-    private PackageDTO(Integer id, Double weight, Integer price, String currency) {
+    private ThingDTO(Integer id, Double weight, Integer price, String currency) {
         this.id = id;
         this.weight = weight;
         this.price = price;
@@ -40,7 +40,7 @@ public class PackageDTO {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        PackageDTO that = (PackageDTO) o;
+        ThingDTO that = (ThingDTO) o;
         return id.equals(that.id);
     }
 
@@ -51,7 +51,7 @@ public class PackageDTO {
 
     @Override
     public String toString() {
-        return "PackageDTO{" +
+        return "ThingDTO{" +
                 "id=" + id +
                 ", weight=" + weight +
                 ", price=" + price +
@@ -60,9 +60,9 @@ public class PackageDTO {
     }
 
     /**
-     * Builder class for {@link PackageDTO}
+     * Builder class for {@link ThingDTO}
      */
-    public static class PackageDTOBuilder {
+    public static class ThingDTOBuilder {
         private Integer id;
         private double weight;
         private Integer price;
@@ -92,11 +92,11 @@ public class PackageDTO {
             this.currency = price.substring(0, pos);
         }
 
-        public PackageDTO build(final String[] packageDetails) {
-            id(packageDetails[0].trim());
-            weight(packageDetails[1].trim());
-            price(packageDetails[2].trim());
-            return new PackageDTO(id, weight, price, currency);
+        public ThingDTO build(final String[] thingDetails) {
+            id(thingDetails[0].trim());
+            weight(thingDetails[1].trim());
+            price(thingDetails[2].trim());
+            return new ThingDTO(id, weight, price, currency);
         }
     }
 }

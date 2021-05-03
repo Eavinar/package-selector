@@ -1,7 +1,7 @@
 package com.mobiquity.validator;
 
 import com.mobiquity.constant.Constants;
-import com.mobiquity.dto.PackageWrapper;
+import com.mobiquity.dto.ThingsWrapper;
 import com.mobiquity.exception.APIException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -11,7 +11,7 @@ import java.util.Collections;
 import static org.junit.jupiter.api.Assertions.*;
 
 class WeightValidatorTest {
-    private PackageValidator validator;
+    private ThingValidator validator;
 
     @BeforeEach
     void setUp() {
@@ -23,7 +23,7 @@ class WeightValidatorTest {
         Integer[] weight = {10};
         Integer[] value = {10};
 
-        PackageWrapper wrapper = new PackageWrapper(Constants.MAX_WEIGHT, Collections.emptyList());
+        ThingsWrapper wrapper = new ThingsWrapper(Constants.MAX_WEIGHT, Collections.emptyList());
         assertDoesNotThrow(() -> validator.validate(weight, value, wrapper));
     }
 
@@ -32,7 +32,7 @@ class WeightValidatorTest {
         Integer[] weight = {101 * Constants.HUNDRED};
         Integer[] value = {10};
 
-        PackageWrapper wrapper = new PackageWrapper(Constants.MAX_WEIGHT / Constants.HUNDRED, Collections.emptyList());
+        ThingsWrapper wrapper = new ThingsWrapper(Constants.MAX_WEIGHT / Constants.HUNDRED, Collections.emptyList());
 
         Exception exception = assertThrows(APIException.class, () -> validator.validate(weight, value, wrapper));
 

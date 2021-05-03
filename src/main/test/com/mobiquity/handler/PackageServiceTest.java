@@ -2,7 +2,6 @@ package com.mobiquity.handler;
 
 import com.mobiquity.constant.Constants;
 import com.mobiquity.exception.APIException;
-import com.mobiquity.exception.APIRuntimeException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
